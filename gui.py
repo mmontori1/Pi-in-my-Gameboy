@@ -2,14 +2,50 @@ from Tkinter import *
 import Tkinter
 import subprocess
 import tkMessageBox
+from PIL import Image, ImageTk
 
 bgcolor = "#2143a2"
 root = Tk()
+
+class logo(Label):
+	def __init__(self, master, filename, background):
+		anim = Image.open(filename)
+		gif = []
+		self.frames = []
+		self.index = 0
+		self.delay = anim.info['duration']
+
+		try:
+			while True:
+				gif.append(anim.copy())
+				anim.seek(anim.tell() + 1)
+		except EOFError:
+			pass
+
+		self.first = gif[0].convert('RGBA')
+		self.frames.append(ImageTk.PhotoImage(self.first))
+
+		Label.__init__(self, master, image = self.frames[0], background = bgcolor)
+		next = gif[0]
+		for image in gif:
+			next.paste(image)
+			self.frame = next.convert('RGBA')
+			self.frames.append(ImageTk.PhotoImage(self.frame))
+
+		loop = self.after(self.delay, self.play)
+
+	def play(self):
+		self.config(image = self.frames[self.index])
+		self.index += 1
+		if self.index == len(self.frames):
+			self.index = 0
+		loop = self.after(self.delay, self.play)
 
 # tries to run emulate.sh, else prints out error message
 def emulationScript():
 	try:
 		subprocess.call(['sh', 'emulate.sh'])
+		root.destroy()
 	except:
 		tkMessageBox.showinfo("huh this ain't an emulator", "Error: Shell Script ran into an error and couldn't run")
 
@@ -21,18 +57,17 @@ def exitApp():
 def main():
 	root.geometry("268x201")
 	root.configure(background = bgcolor)
+	root.wm_title("Pi in my Gameboy")
 	
-	rasp = PhotoImage(file = "Rasp_turn_around.gif")
-	rasp2 = PhotoImage(file = "Rasp_turn_around.gif", format = "gif -index 20")
-	label = Label(background = bgcolor, image = rasp)
-	label.pack()
+	anim = logo(root, "Rasp_turn_around.gif", background = bgcolor)
+	anim.pack()
 
 	frame = Frame(root, background = bgcolor)
 	frame.pack()
 
-	retro = Button(frame, text="Run RetroPie?", highlightbackground = bgcolor, command = emulationScript)
+	retro = Button(frame, text="Run RetroPie", highlightbackground = bgcolor, command = emulationScript)
 	retro.pack()
-	exit = Button(frame, text="exit", highlightbackground = bgcolor, command = exitApp)
+	exit = Button(frame, text="Exit to Raspbian", highlightbackground = bgcolor, command = exitApp)
 	exit.pack()
 
 	root.mainloop()
