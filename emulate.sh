@@ -1,2 +1,2 @@
-#ls
-sudo service lightdm stop && emulationstation
+(sudo service lightdm stop && emulationstation)&
+emulationstation
