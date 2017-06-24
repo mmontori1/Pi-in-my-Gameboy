@@ -1,15 +1,17 @@
 # Pi in my Gameboy
 A Raspberry Pi GUI to boot up RetroPie through Raspbian
 
-#Intro
+# Intro
+
 This is an extension to Jason Wozniak and Mariano Montori's HackIllinois 2017 Hardware project; We're trying to make a Gameboy using the Raspberry Pi 3, putting all the pieces together into one Gameboy Case. Our goal is to have not only the usual Gameboy buttons, but also 2 extra analog sticks and shoulder buttons to take advantage of the Raspberry Pi 3 in order to play N64 and PS1 games as well, all on the go!
 
-#Project Description
+# Project Description
+
 The problem that we ran into during the event is that since we have the Raspberry Pi with both Raspbian and RetroPie, we needed an easy interface to run RetroPie without having to use a keyboard to run scripts to start the emulator. This simple TkInter based Python GUI is made to set up and run RetroPie on top of Raspbian without having to run any scripts, and instead just click a simple button to start it.
 
-#Requirements
+# Requirements
 
-###Raspberry Pi Requirements
+### Raspberry Pi Requirements
 
 -[Raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 
@@ -19,9 +21,10 @@ To use this project, we recommend to download and write these two images to your
 
 [RPi SD card setup guide](http://elinux.org/RPi_Easy_SD_Card_Setup#SD_card_setup)
 
-###Python 2.7 Dependencies
+### Python 2.7 Dependencies
 
-####On your Laptop
+#### On your Laptop
+
 -os
 
 -subprocess
@@ -43,7 +46,7 @@ python setup.py build
 sudo python setup.py install
 ```
 
-####On the Raspberry Pi
+#### On the Raspberry Pi
 
 In order for all the dependencies to work on the Raspberry Pi, you must have TkInter and Pillow installed. To do this, we had to run these commands through LXTerminal.
 
